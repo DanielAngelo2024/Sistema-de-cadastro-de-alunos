@@ -98,12 +98,23 @@ struct Aluno
     }
 };
 
+void exibirAlunos(Aluno alunos[], int alunosRegistrados){
+    for (int i = 0; i < alunosRegistrados; i++)
+    {
+        std::cout<<"----------------------------------- \n"
+        "Aluno "<<i+1<<":"<<std::endl;
+        alunos[i].exibirAluno();
+    }
+    
+}
+
 int main(int argc, char const *argv[])
 {
     setlocale(LC_ALL, "pt_BR.UTF-8");
 
     const int TOTAL_ALUNOS = 50;
     Aluno alunos[TOTAL_ALUNOS];
+    int alunosRegistrados = 0;
     char flag;
     int i = -1;
     int opcao;
@@ -111,20 +122,23 @@ int main(int argc, char const *argv[])
     do
     {   
         
-        std::cout<<"1-Adicionar aluno, 2-Adicionar notas, 3-Exibir alunos, 4-Histórico"<<std::endl;
+        std::cout<<"1-Adicionar aluno, 2-Adicionar notas, 3-Exibir aluno, 4-Exibir alunos 4-Histórico"<<std::endl;
         std::cin>>opcao;
         switch (opcao)
         {
             case 1:
                 i++;
                 alunos[i].setAluno();
-                
+                alunosRegistrados++;
             break;
             case 2:
                 alunos[i].setNotaAluno();
             break;
             case 3:
                 alunos[i].exibirAluno();
+            break;
+            case 4:
+                exibirAlunos(alunos, alunosRegistrados);
             break;
             default:
                 std::cerr<<"Opção inválida!"<<std::endl;
