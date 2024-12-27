@@ -102,7 +102,7 @@ void exibirAlunos(Aluno alunos[], int alunosRegistrados){
     for (int i = 0; i < alunosRegistrados; i++)
     {
         std::cout<<"----------------------------------- \n"
-        "Aluno "<<i+1<<":"<<std::endl;
+        "Aluno ID: "<<i+1<<":"<<std::endl;
         alunos[i].exibirAluno();
     }
     
@@ -115,21 +115,30 @@ int main(int argc, char const *argv[])
     const int TOTAL_ALUNOS = 50;
     Aluno alunos[TOTAL_ALUNOS];
     int alunosRegistrados = 0;
-    char flag;
+    int flag = 1;
     int i = -1;
     int opcao;
     
     do
-    {   
+    {
+        if (alunosRegistrados == 0)
+        {
+            std::cout<<"Sem aluno registrado, adicione uma aluno para começar! \n";
+            opcao = 1;
+        } else{
+            std::cout<<"Alunos registrados: "<<alunosRegistrados<<std::endl;
+            std::cout<<"Aluno selecionado atual: "<<alunos[i].nome<<" ID: "<<i+1<<std::endl;
+            std::cout<<"1-Adicionar aluno, 2-Alterar notas, 3-Exibir aluno, 4-Exibir alunos, 5-Histórico, 6-Selecionar aluno 0-Sair"<<std::endl;
+            std::cin>>opcao;
+        }
         
-        std::cout<<"1-Adicionar aluno, 2-Adicionar notas, 3-Exibir aluno, 4-Exibir alunos 4-Histórico"<<std::endl;
-        std::cin>>opcao;
         switch (opcao)
         {
             case 1:
                 i++;
                 alunos[i].setAluno();
                 alunosRegistrados++;
+                
             break;
             case 2:
                 alunos[i].setNotaAluno();
@@ -140,18 +149,18 @@ int main(int argc, char const *argv[])
             case 4:
                 exibirAlunos(alunos, alunosRegistrados);
             break;
+            case 6:
+                std::cout<<"Escolha o aluno por ID: \n";
+                std::cin>>i;
+                i--;
+            break;
+            case 0:
+                std::cout<<"Programa encerrado!";
+                flag = 0;
+            break;
             default:
                 std::cerr<<"Opção inválida!"<<std::endl;
             break;
         }
-        
-        std::cout<<"Deseja continuar (s/n)?"<<std::endl;
-        std::cin>>flag;
-
-        if (flag != 's')
-        {
-            std::cout<<"Programa encerrado!";
-        }
-    } while (flag == 's');
+    } while (flag == 1);
 }
-
