@@ -118,6 +118,8 @@ int main(int argc, char const *argv[])
     int flag = 1;
     int i = -1;
     int opcao;
+    int auxi;
+    bool auxiBool = false;
     
     do
     {
@@ -135,6 +137,11 @@ int main(int argc, char const *argv[])
         switch (opcao)
         {
             case 1:
+                if (auxiBool == true)
+                {
+                    i = auxi;
+                }
+                
                 i++;
                 alunos[i].setAluno();
                 alunosRegistrados++;
@@ -150,6 +157,8 @@ int main(int argc, char const *argv[])
                 exibirAlunos(alunos, alunosRegistrados);
             break;
             case 6:
+                auxi = i;
+                auxiBool = true;
                 std::cout<<"Escolha o aluno por ID: \n";
                 std::cin>>i;
                 i--;
