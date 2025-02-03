@@ -1,0 +1,1 @@
+Sistema de cadastro de alunos, desafio feito pelo meu professor no segundo período da faculdade, aplicando conceitos básicos de algoritmos e de structs.
