@@ -24,15 +24,7 @@ struct Aluno
     void exibirAluno();
 };
 
-void exibirAlunos(Aluno alunos[], int alunosRegistrados){
-    for (int i = 0; i < alunosRegistrados; i++)
-    {
-        std::cout<<"----------------------------------- \n"
-        "Aluno ID: "<<i+1<<":"<<std::endl;
-        alunos[i].exibirAluno();
-    }
-    
-}
+void exibirAlunos(Aluno alunos[], int alunosRegistrados);
 
 int main(int argc, char const *argv[])
 {
@@ -216,3 +208,13 @@ void Aluno::exibirAluno()
 }
 
 #pragma endregion
+
+void exibirAlunos(Aluno alunos[], int alunosRegistrados){
+    for (int i = 0; i < alunosRegistrados; i++)
+    {
+        std::cout<<"----------------------------------- \n"
+        "Aluno ID: "<<i+1<<":"<<std::endl;
+        alunos[i].exibirAluno();
+    }
+    
+}
