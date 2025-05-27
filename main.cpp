@@ -1,5 +1,7 @@
 #include <iostream>
 #include <locale>
+#include <string>
+#include <fstream>
 
 struct Disciplina
 {
@@ -25,6 +27,36 @@ struct Aluno
 };
 
 void exibirAlunos(Aluno alunos[], int alunosRegistrados);
+
+void criarArquivo(Aluno alunos[], int alunosRegistrados){
+    std::ofstream escreve;
+    escreve.open("alunos.txt");
+    
+    if (escreve.is_open())
+    {
+        for (int i = 0; i < alunosRegistrados; i++)
+        {
+            escreve << "Aluno ID: " << i+1 << "\n";
+            escreve << "Nome: " << alunos[i].nome << "\n";
+            escreve << "Idade: " << alunos[i].idade << "\n";
+            for (int j = 0; j < 5; j++)
+            {
+                escreve << "Disciplina " << j+1 << ": ";
+                for (int k = 0; k < 4; k++)
+                {
+                    escreve << alunos[i].disciplinas[j].notas[k] << " ";
+                }
+                escreve << "\n";
+            }
+            escreve << "-----------------------------------\n";
+        }
+        escreve.close();
+        std::cout<<"Arquivo criado com sucesso!"<<std::endl;
+    } else {
+        std::cerr<<"Erro ao criar arquivo!"<<std::endl;
+    }
+
+}
 
 int main(int argc, char const *argv[])
 {
@@ -90,6 +122,8 @@ int main(int argc, char const *argv[])
             break;
         }
     } while (*flag == 1);
+
+    criarArquivo(alunos, *alunosRegistrados);
 
     delete[] alunos;
     alunos = nullptr;
