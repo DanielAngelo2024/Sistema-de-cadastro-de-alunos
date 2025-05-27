@@ -29,6 +29,8 @@
 
 💡 Atualização 1: Protótipo de funções.
 
+💡 Atualização 2: Ponteiros.
+
 -------------------------------------------------------------------------------------------------------------------------------------
 
 🇺🇸
@@ -58,3 +60,5 @@
 🔟 Detection if there is no registered student.
 
 💡 Update 1: Function prototype.
+
+💡 Update 2: Pointers.

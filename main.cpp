@@ -39,39 +39,39 @@ int main(int argc, char const *argv[])
     setlocale(LC_ALL, "pt_BR.UTF-8");
     
     const int TOTAL_ALUNOS = 50;
-    Aluno alunos[TOTAL_ALUNOS];
-    int alunosRegistrados = 0;
-    int flag = 1;
+    Aluno* alunos = new Aluno[TOTAL_ALUNOS];
+    int* alunosRegistrados = new int(0);
+    int* flag = new int(1);
+    int* opcao = new int;
+    int* auxi = new int;
+    bool* auxiBool = new bool(false);
     int i = -1;
-    int opcao;
-    int auxi;
-    bool auxiBool = false;
     
     do
     {
-        if (alunosRegistrados == 0)
+        if (*alunosRegistrados == 0)
         {
             std::cout<<"Sem aluno registrado, adicione uma aluno para começar! \n";
-            opcao = 1;
+            *opcao = 1;
         } else{
-            std::cout<<"Alunos registrados: "<<alunosRegistrados<<std::endl;
+            std::cout<<"Alunos registrados: "<<*alunosRegistrados<<std::endl;
             std::cout<<"Aluno selecionado atual: "<<alunos[i].nome<<" ID: "<<i+1<<std::endl;
             std::cout<<"1-Adicionar aluno, 2-Alterar notas, 3-Exibir aluno, 4-Exibir alunos, 5-Histórico, 6-Selecionar aluno 0-Sair"<<std::endl;
-            std::cin>>opcao;
+            std::cin>>*opcao;
         }
-        
-        switch (opcao)
+
+        switch (*opcao)
         {
             case 1:
-                if (auxiBool == true)
+                if (*auxiBool == true)
                 {
-                    i = auxi;
+                    i = *auxi;
                 }
                 
                 i++;
                 alunos[i].setAluno();
-                alunosRegistrados++;
-                
+                (*alunosRegistrados)++;
+
             break;
             case 2:
                 alunos[i].setNotaAluno();
@@ -80,25 +80,41 @@ int main(int argc, char const *argv[])
                 alunos[i].exibirAluno();
             break;
             case 4:
-                exibirAlunos(alunos, alunosRegistrados);
+                exibirAlunos(alunos, *alunosRegistrados);
             break;
             case 6:
-                auxi = i;
-                auxiBool = true;
+                *auxi = i;
+                *auxiBool = true;
                 std::cout<<"Escolha o aluno por ID: \n";
                 std::cin>>i;
                 i--;
             break;
             case 0:
                 std::cout<<"Programa encerrado!";
-                flag = 0;
+                *flag = 0;
             break;
             default:
                 std::cerr<<"Opção inválida!"<<std::endl;
             break;
         }
-    } while (flag == 1);
+    } while (*flag == 1);
+
+    delete[] alunos;
+    alunos = nullptr;
+    delete alunosRegistrados;
+    alunosRegistrados = nullptr;
+    delete flag;
+    flag = nullptr;
+    delete opcao;
+    opcao = nullptr;
+    delete auxi;
+    auxi = nullptr;
+    delete auxiBool;
+    auxiBool = nullptr;
+    return 0;
 }
+
+
 #pragma region Disciplina
 
 void Disciplina::setNota()
