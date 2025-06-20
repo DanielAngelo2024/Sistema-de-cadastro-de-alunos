@@ -10,7 +10,7 @@
 
 2️⃣ Conceitos de structs, com aluno e disciplina.
 
-3️⃣ Cadastro de Alunos.
+3️⃣ Cadastro de Alunos utilizando listas encadeadas.
 
 4️⃣ Registro de notas.
 
@@ -18,7 +18,7 @@
 
 6️⃣ Exibição do aluno atual.
 
-7️⃣ Seleção do aluno através do índice do array.
+7️⃣ Seleção do aluno através do índice do array (a atualizar para utilizar listas encadeadas).
 
 8️⃣ Usuário escolhe quando sair.
 
@@ -30,6 +30,8 @@
 💡 Atualização 1: Protótipo de funções.
 
 💡 Atualização 2: Ponteiros.
+
+💡 Atualização 3: Adicionar alunos utilizando listas encadeadas.
 
 -------------------------------------------------------------------------------------------------------------------------------------
 
@@ -43,7 +45,7 @@
 
 2️⃣ Concepts of structs, with student and discipline.
 
-3️⃣ Student Registration.
+3️⃣ Student Registration with linked lists.
 
 4️⃣ Recording grades.
 
@@ -51,7 +53,7 @@
 
 6️⃣ Displaying the current student.
 
-7️⃣ Selecting the student through the array index.
+7️⃣ Selecting the student through the array index.(to update to linked lists)
 
 8️⃣ User chooses when to leave.
 
@@ -59,6 +61,9 @@
 
 🔟 Detection if there is no registered student.
 
+
 💡 Update 1: Function prototype.
 
 💡 Update 2: Pointers.
+
+💡 Update 3: Add students using linked lists.
