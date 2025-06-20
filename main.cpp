@@ -14,9 +14,55 @@ struct Disciplina
 
 struct Aluno
 {
+    int ID = 0; // Inicializa o ID do aluno como 0
     std::string nome;
     int idade;
     Disciplina disciplinas[5];
+    Aluno* proximo;
+
+    void inserirInicio(Aluno*& cabeca){ // Insere um novo aluno no início da lista
+        Aluno* novoAluno = new Aluno; // Cria um novo aluno
+        novoAluno->ID = 0; // Inicializa o ID do novo aluno como 0
+        novoAluno->setAluno(); // Define o aluno com os dados inseridos pelo usuário
+        novoAluno->proximo = cabeca; // Define o próximo aluno como a cabeça da lista atual
+        cabeca = novoAluno; // Define o novo aluno como a nova cabeça da lista
+    }
+
+    void inserirFinal(Aluno*& cabeca){ // Insere um novo aluno no final da lista
+        Aluno* novoAluno = new Aluno;
+        novoAluno->setAluno(); // Define o aluno com os dados inseridos pelo usuário
+        novoAluno->proximo = nullptr; // Define o próximo aluno como nullptr, pois será o último da lista
+
+        if (cabeca == nullptr) { // Se a lista estiver vazia, o novo aluno se torna a cabeça da lista
+            novoAluno->ID = 1; // Inicializa o ID do novo aluno como 1
+            cabeca = novoAluno;
+            return;
+        }else{
+            Aluno* temp = cabeca; // Se a lista não estiver vazia, percorre até o final da lista
+            int id = 1;
+            while(temp->proximo != nullptr) { 
+                temp = temp->proximo; // Avança para o próximo aluno na lista
+                id++;
+            }
+            temp->proximo = novoAluno; // Define o novo aluno como o próximo do último aluno da lista
+            novoAluno->ID = id + 1;
+        }
+    }
+
+    void exibirListaAlunos(Aluno* cabeca) {
+        while (cabeca != nullptr) {
+            std::cout << "-----------------------------------" << std::endl;
+            std::cout << "Aluno ID: " << cabeca->ID << std::endl; // Exibe o endereço do aluno como ID
+            std::cout << "Nome: " << cabeca->nome << std::endl; // Exibe o nome do aluno
+            std::cout << "Idade: " << cabeca->idade << std::endl; // Exibe a idade do aluno
+            std::cout << "Disciplinas e Notas:" << std::endl; // Exibe as disciplinas e notas do aluno
+            for (int i = 0; i < 5; i++) { 
+                std::cout << "Disciplina " << i + 1 << ": "; // Exibe o número da disciplina
+                cabeca->disciplinas[i].exibirNotas(); // Exibe as notas da disciplina 
+            }
+            cabeca = cabeca->proximo; // Avança para o próximo aluno na lista
+        }
+    }
 
     void setNome();
     void setIdade();
@@ -26,7 +72,7 @@ struct Aluno
     void exibirAluno();
 };
 
-void exibirAlunos(Aluno alunos[], int alunosRegistrados);
+
 
 void criarArquivo(Aluno alunos[], int alunosRegistrados){
     std::ofstream escreve;
@@ -62,81 +108,61 @@ int main(int argc, char const *argv[])
 {
     setlocale(LC_ALL, "pt_BR.UTF-8");
     
-    const int TOTAL_ALUNOS = 50;
-    Aluno* alunos = new Aluno[TOTAL_ALUNOS];
-    int* alunosRegistrados = new int(0);
+    Aluno* alunos = nullptr;
     int* flag = new int(1);
     int* opcao = new int;
-    int* auxi = new int;
-    bool* auxiBool = new bool(false);
-    int i = -1;
     
     do
     {
-        if (*alunosRegistrados == 0)
-        {
-            std::cout<<"Sem aluno registrado, adicione uma aluno para começar! \n";
-            *opcao = 1;
-        } else{
-            std::cout<<"Alunos registrados: "<<*alunosRegistrados<<std::endl;
-            std::cout<<"Aluno selecionado atual: "<<alunos[i].nome<<" ID: "<<i+1<<std::endl;
+        if(alunos == nullptr) {
+            std::cout<<"Nenhum aluno registrado, por favor adicione um aluno!"<<std::endl; // Cria o primeiro aluno
+            alunos->inserirInicio(alunos); // Insere o primeiro aluno na lista
+        }else{
+            //std::cout<<"Alunos registrados: "<<std::endl;
+            std::cout<<"Aluno selecionado atual: "<<alunos->ID<<std::endl;
+            std::cout<<"Nome do aluno: "<<alunos->nome<<std::endl;
+            std::cout<<"Idade do aluno: "<<alunos->idade<<std::endl;
             std::cout<<"1-Adicionar aluno, 2-Alterar notas, 3-Exibir aluno, 4-Exibir alunos, 5-Histórico, 6-Selecionar aluno 0-Sair"<<std::endl;
             std::cin>>*opcao;
-        }
+        
+            switch (*opcao)
+            {
+                case 1:
+                    alunos->inserirFinal(alunos);
 
-        switch (*opcao)
-        {
-            case 1:
-                if (*auxiBool == true)
-                {
-                    i = *auxi;
-                }
-                
-                i++;
-                alunos[i].setAluno();
-                (*alunosRegistrados)++;
-
-            break;
-            case 2:
-                alunos[i].setNotaAluno();
-            break;
-            case 3:
-                alunos[i].exibirAluno();
-            break;
-            case 4:
-                exibirAlunos(alunos, *alunosRegistrados);
-            break;
-            case 6:
-                *auxi = i;
-                *auxiBool = true;
-                std::cout<<"Escolha o aluno por ID: \n";
-                std::cin>>i;
-                i--;
-            break;
-            case 0:
-                std::cout<<"Programa encerrado!";
-                *flag = 0;
-            break;
-            default:
-                std::cerr<<"Opção inválida!"<<std::endl;
-            break;
+                break;
+                case 2:
+                    alunos->setNotaAluno();
+                break;
+                case 3:
+                    alunos->exibirAluno();
+                break;
+                case 4:
+                    alunos->exibirListaAlunos(alunos);
+                break;
+                case 6:
+                /* std::cout<<"Escolha o aluno por ID: \n";
+                    std::cin>>i;*/
+                break;
+                case 0:
+                    std::cout<<"Programa encerrado!";
+                    *flag = 0;
+                break;
+                default:
+                    std::cerr<<"Opção inválida!"<<std::endl;
+                break;
+            }
         }
     } while (*flag == 1);
 
-    criarArquivo(alunos, *alunosRegistrados);
+    //criarArquivo(alunos, alunos.);
 
-    delete[] alunos;
+    delete alunos;
     alunos = nullptr;
-    delete alunosRegistrados;
-    alunosRegistrados = nullptr;
     delete flag;
     flag = nullptr;
     delete opcao;
     opcao = nullptr;
-    delete auxi;
-    auxi = nullptr;
-    delete auxiBool;
-    auxiBool = nullptr;
     return 0;
 }
 
@@ -192,6 +218,8 @@ void Disciplina::calcularMedia()
 
 #pragma region Aluno
 
+
+
 void Aluno::setNome()
 {
     std::cout<<"Digite o nome:"<<std::endl;
@@ -242,13 +270,3 @@ void Aluno::exibirAluno()
 }
 
 #pragma endregion
-
-void exibirAlunos(Aluno alunos[], int alunosRegistrados){
-    for (int i = 0; i < alunosRegistrados; i++)
-    {
-        std::cout<<"----------------------------------- \n"
-        "Aluno ID: "<<i+1<<":"<<std::endl;
-        alunos[i].exibirAluno();
-    }
-    
-}
