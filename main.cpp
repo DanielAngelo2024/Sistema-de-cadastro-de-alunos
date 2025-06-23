@@ -20,78 +20,10 @@ struct Aluno
     Disciplina disciplinas[5];
     Aluno* proximo;
 
-    void inserirInicio(Aluno*& cabeca){ // Insere um novo aluno no início da lista
-        Aluno* novoAluno = new Aluno; // Cria um novo aluno
-        novoAluno->ID = 0; // Inicializa o ID do novo aluno como 0
-        novoAluno->setAluno(); // Define o aluno com os dados inseridos pelo usuário
-        novoAluno->proximo = cabeca; // Define o próximo aluno como a cabeça da lista atual
-        cabeca = novoAluno; // Define o novo aluno como a nova cabeça da lista
-    }
-
-    void inserirFinal(Aluno*& cabeca){ // Insere um novo aluno no final da lista
-        Aluno* novoAluno = new Aluno;
-        novoAluno->setAluno(); // Define o aluno com os dados inseridos pelo usuário
-        novoAluno->proximo = nullptr; // Define o próximo aluno como nullptr, pois será o último da lista
-
-        if (cabeca == nullptr) { // Se a lista estiver vazia, o novo aluno se torna a cabeça da lista
-            novoAluno->ID = 1; // Inicializa o ID do novo aluno como 1
-            cabeca = novoAluno;
-            return;
-        }else{
-            Aluno* temp = cabeca; // Se a lista não estiver vazia, percorre até o final da lista
-            int id = 1;
-            while(temp->proximo != nullptr) { 
-                temp = temp->proximo; // Avança para o próximo aluno na lista
-                id++;
-            }
-            temp->proximo = novoAluno; // Define o novo aluno como o próximo do último aluno da lista
-            novoAluno->ID = id;
-        }
-    }
-
-    void exibirListaAlunos(Aluno* cabeca) {
-        while (cabeca != nullptr) {
-            std::cout << "-----------------------------------" << std::endl;
-            std::cout << "Aluno ID: " << cabeca->ID << std::endl; // Exibe o endereço do aluno como ID
-            std::cout << "Nome: " << cabeca->nome << std::endl; // Exibe o nome do aluno
-            std::cout << "Idade: " << cabeca->idade << std::endl; // Exibe a idade do aluno
-            std::cout << "Disciplinas e Notas:" << std::endl; // Exibe as disciplinas e notas do aluno
-            for (int i = 0; i < 5; i++) { 
-                std::cout << "Disciplina " << i + 1 << ": "; // Exibe o número da disciplina
-                cabeca->disciplinas[i].exibirNotas(); // Exibe as notas da disciplina 
-            }
-            cabeca = cabeca->proximo; // Avança para o próximo aluno na lista
-        }
-    }
-
-    void removerAluno(Aluno*& cabeca){
-        int id;
-        std::cout << "Digite o id do aluno que deseja remover:" << std::endl;
-        std::cin >> id;
-        if(cabeca == nullptr) return;
-        if(cabeca->ID == id){
-            Aluno* temp = cabeca;
-            cabeca = cabeca->proximo;
-            delete temp;
-            return;
-        }
-
-        Aluno* atual = cabeca;
-        while(atual->proximo && atual->proximo->ID != id){
-            atual = atual->proximo;
-        }
-
-        if(atual->proximo != nullptr){
-            Aluno* temp = atual->proximo;
-            atual->proximo = temp->proximo;
-            std::cout << "Aluno " << temp->nome << " removido com sucesso." << std::endl;
-            delete temp;
-
-        }
-
-
-    }
-
+    void inserirInicio(Aluno*& cabeca);
+    void inserirFinal(Aluno*& cabeca);
+    void exibirListaAlunos(Aluno* cabeca);
+    void removerAluno(Aluno*& cabeca);
     void setNome();
     void setIdade();
     void setAluno();
@@ -109,7 +41,7 @@ void criarArquivo(Aluno*& alunos){
     
     if (escreve.is_open())
     {
-        while (alunos->proximo != nullptr)
+        while (alunos != nullptr)
         {
             escreve << "Aluno ID: " << alunos->ID << "\n";
             escreve << "Nome: " << alunos->nome << "\n";
@@ -147,12 +79,10 @@ int main(int argc, char const *argv[])
         if(alunos == nullptr) {
             std::cout<<"Nenhum aluno registrado, por favor adicione um aluno!"<<std::endl; // Cria o primeiro aluno
             alunos->inserirInicio(alunos); // Insere o primeiro aluno na lista
+            (*alunosRegistrados)++;
         }else{
             std::cout<< *alunosRegistrados <<" alunos registrados. "<<std::endl;
-            std::cout<<"Aluno selecionado atual: "<<alunos->ID<<std::endl;
-            std::cout<<"Nome do aluno: "<<alunos->nome<<std::endl;
-            std::cout<<"Idade do aluno: "<<alunos->idade<<std::endl;
-            std::cout<<"1-Adicionar aluno, 2-Remover Aluno, 3-Alterar notas, 4-Exibir aluno, 5-Exibir alunos, 6-Histórico, 7-Selecionar aluno 0-Sair"<<std::endl;
+            std::cout<<"1-Adicionar aluno, 2-Remover Aluno, 3-Alterar notas, 4-Exibir alunos, 5-Histórico, 0-Sair"<<std::endl;
             std::cin>>*opcao;
         
             switch (*opcao)
@@ -169,17 +99,10 @@ int main(int argc, char const *argv[])
                     alunos->setNotaAluno();
                 break;
                 case 4:
-                    alunos->exibirAluno();
-                break;
-                case 5:
                     alunos->exibirListaAlunos(alunos);
                 break;
-                case 6:
+                case 5:
                 std::cout << "Não implementado" << std::endl;
-                break;
-                case 7:
-                /* std::cout<<"Escolha o aluno por ID: \n";
-                    std::cin>>i;*/
                 break;
                 case 0:
                     std::cout<<"Programa encerrado!";
@@ -257,7 +180,76 @@ void Disciplina::calcularMedia()
 
 #pragma region Aluno
 
+void Aluno::inserirInicio(Aluno*& cabeca)
+{ // Insere um novo aluno no início da lista
+    Aluno* novoAluno = new Aluno; // Cria um novo aluno
+    novoAluno->ID = 0; // Inicializa o ID do novo aluno como 0
+    novoAluno->setAluno(); // Define o aluno com os dados inseridos pelo usuário
+    novoAluno->proximo = cabeca; // Define o próximo aluno como a cabeça da lista atual
+    cabeca = novoAluno; // Define o novo aluno como a nova cabeça da lista
+}
 
+void Aluno::inserirFinal(Aluno*& cabeca)
+{ // Insere um novo aluno no final da lista
+    Aluno* novoAluno = new Aluno;
+    novoAluno->setAluno(); // Define o aluno com os dados inseridos pelo usuário
+    novoAluno->proximo = nullptr; // Define o próximo aluno como nullptr, pois será o último da lista
+
+    if (cabeca == nullptr) { // Se a lista estiver vazia, o novo aluno se torna a cabeça da lista
+        novoAluno->ID = 1; // Inicializa o ID do novo aluno como 1
+        cabeca = novoAluno;
+        return;
+    }else{
+        Aluno* temp = cabeca; // Se a lista não estiver vazia, percorre até o final da lista
+        int id = 1;
+        while(temp->proximo != nullptr) { 
+            temp = temp->proximo; // Avança para o próximo aluno na lista
+            id++;
+        }
+        temp->proximo = novoAluno; // Define o novo aluno como o próximo do último aluno da lista
+        novoAluno->ID = id;
+    }
+}
+
+void Aluno::exibirListaAlunos(Aluno* cabeca) {
+    while (cabeca != nullptr) {
+        std::cout << "-----------------------------------" << std::endl;
+        std::cout << "Aluno ID: " << cabeca->ID << std::endl; // Exibe o endereço do aluno como ID
+        std::cout << "Nome: " << cabeca->nome << std::endl; // Exibe o nome do aluno
+        std::cout << "Idade: " << cabeca->idade << std::endl; // Exibe a idade do aluno
+        std::cout << "Disciplinas e Notas:" << std::endl; // Exibe as disciplinas e notas do aluno
+        for (int i = 0; i < 5; i++) { 
+            std::cout << "Disciplina " << i + 1 << ": "; // Exibe o número da disciplina
+            cabeca->disciplinas[i].exibirNotas(); // Exibe as notas da disciplina 
+        }
+        cabeca = cabeca->proximo; // Avança para o próximo aluno na lista
+    }
+}
+
+void Aluno::removerAluno(Aluno*& cabeca){
+    int id;
+    std::cout << "Digite o id do aluno que deseja remover:" << std::endl;
+    std::cin >> id;
+    if(cabeca == nullptr) return;
+    if(cabeca->ID == id){
+        Aluno* temp = cabeca;
+        cabeca = cabeca->proximo;
+        delete temp;
+        return;
+    }
+
+    Aluno* atual = cabeca;
+    while(atual->proximo && atual->proximo->ID != id){
+        atual = atual->proximo;
+    }
+
+    if(atual->proximo != nullptr){
+        Aluno* temp = atual->proximo;
+        atual->proximo = temp->proximo;
+        std::cout << "Aluno " << temp->nome << " removido com sucesso." << std::endl;
+        delete temp;
+    }
+}
 
 void Aluno::setNome()
 {
