@@ -14,7 +14,7 @@ struct Disciplina
 
 struct Aluno
 {
-    int ID = 0; // Inicializa o ID do aluno como 0
+    int ID;
     std::string nome;
     int idade;
     Disciplina disciplinas[5];
@@ -45,7 +45,7 @@ struct Aluno
                 id++;
             }
             temp->proximo = novoAluno; // Define o novo aluno como o próximo do último aluno da lista
-            novoAluno->ID = id + 1;
+            novoAluno->ID = id;
         }
     }
 
@@ -62,6 +62,34 @@ struct Aluno
             }
             cabeca = cabeca->proximo; // Avança para o próximo aluno na lista
         }
+    }
+
+    void removerAluno(Aluno*& cabeca){
+        int id;
+        std::cout << "Digite o id do aluno que deseja remover:" << std::endl;
+        std::cin >> id;
+        if(cabeca == nullptr) return;
+        if(cabeca->ID == id){
+            Aluno* temp = cabeca;
+            cabeca = cabeca->proximo;
+            delete temp;
+            return;
+        }
+
+        Aluno* atual = cabeca;
+        while(atual->proximo && atual->proximo->ID != id){
+            atual = atual->proximo;
+        }
+
+        if(atual->proximo != nullptr){
+            Aluno* temp = atual->proximo;
+            atual->proximo = temp->proximo;
+            std::cout << "Aluno " << temp->nome << " removido com sucesso." << std::endl;
+            delete temp;
+
+        }
+
+
     }
 
     void setNome();
@@ -122,7 +150,7 @@ int main(int argc, char const *argv[])
             std::cout<<"Aluno selecionado atual: "<<alunos->ID<<std::endl;
             std::cout<<"Nome do aluno: "<<alunos->nome<<std::endl;
             std::cout<<"Idade do aluno: "<<alunos->idade<<std::endl;
-            std::cout<<"1-Adicionar aluno, 2-Alterar notas, 3-Exibir aluno, 4-Exibir alunos, 5-Histórico, 6-Selecionar aluno 0-Sair"<<std::endl;
+            std::cout<<"1-Adicionar aluno, 2-Remover Aluno, 3-Alterar notas, 4-Exibir aluno, 5-Exibir alunos, 6-Histórico, 7-Selecionar aluno 0-Sair"<<std::endl;
             std::cin>>*opcao;
         
             switch (*opcao)
@@ -132,15 +160,21 @@ int main(int argc, char const *argv[])
 
                 break;
                 case 2:
-                    alunos->setNotaAluno();
+                    alunos->removerAluno(alunos);
                 break;
                 case 3:
-                    alunos->exibirAluno();
+                    alunos->setNotaAluno();
                 break;
                 case 4:
+                    alunos->exibirAluno();
+                break;
+                case 5:
                     alunos->exibirListaAlunos(alunos);
                 break;
                 case 6:
+                std::cout << "Não implementado" << std::endl;
+                break;
+                case 7:
                 /* std::cout<<"Escolha o aluno por ID: \n";
                     std::cin>>i;*/
                 break;

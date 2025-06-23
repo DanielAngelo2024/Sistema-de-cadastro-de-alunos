@@ -31,7 +31,7 @@
 
 💡 Atualização 2: Ponteiros.
 
-💡 Atualização 3: Adicionar alunos utilizando listas encadeadas.
+💡 Atualização 3: Adicionar e remover alunos utilizando listas encadeadas.
 
 -------------------------------------------------------------------------------------------------------------------------------------
 
@@ -66,4 +66,4 @@
 
 💡 Update 2: Pointers.
 
-💡 Update 3: Add students using linked lists.
+💡 Update 3: Add and remove students using linked lists.
