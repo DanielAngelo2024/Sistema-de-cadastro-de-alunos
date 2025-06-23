@@ -102,27 +102,29 @@ struct Aluno
 
 
 
-void criarArquivo(Aluno alunos[], int alunosRegistrados){
+void criarArquivo(Aluno*& alunos){
     std::ofstream escreve;
+
     escreve.open("alunos.txt");
     
     if (escreve.is_open())
     {
-        for (int i = 0; i < alunosRegistrados; i++)
+        while (alunos->proximo != nullptr)
         {
-            escreve << "Aluno ID: " << i+1 << "\n";
-            escreve << "Nome: " << alunos[i].nome << "\n";
-            escreve << "Idade: " << alunos[i].idade << "\n";
+            escreve << "Aluno ID: " << alunos->ID << "\n";
+            escreve << "Nome: " << alunos->nome << "\n";
+            escreve << "Idade: " << alunos->idade << "\n";
             for (int j = 0; j < 5; j++)
             {
                 escreve << "Disciplina " << j+1 << ": ";
                 for (int k = 0; k < 4; k++)
                 {
-                    escreve << alunos[i].disciplinas[j].notas[k] << " ";
+                    escreve << alunos->disciplinas[j].notas[k] << " ";
                 }
                 escreve << "\n";
             }
             escreve << "-----------------------------------\n";
+            alunos = alunos->proximo;
         }
         escreve.close();
         std::cout<<"Arquivo criado com sucesso!"<<std::endl;
@@ -139,14 +141,14 @@ int main(int argc, char const *argv[])
     Aluno* alunos = nullptr;
     int* flag = new int(1);
     int* opcao = new int;
-    
+    int* alunosRegistrados = new int(0);
     do
     {
         if(alunos == nullptr) {
             std::cout<<"Nenhum aluno registrado, por favor adicione um aluno!"<<std::endl; // Cria o primeiro aluno
             alunos->inserirInicio(alunos); // Insere o primeiro aluno na lista
         }else{
-            //std::cout<<"Alunos registrados: "<<std::endl;
+            std::cout<< *alunosRegistrados <<" alunos registrados. "<<std::endl;
             std::cout<<"Aluno selecionado atual: "<<alunos->ID<<std::endl;
             std::cout<<"Nome do aluno: "<<alunos->nome<<std::endl;
             std::cout<<"Idade do aluno: "<<alunos->idade<<std::endl;
@@ -157,10 +159,11 @@ int main(int argc, char const *argv[])
             {
                 case 1:
                     alunos->inserirFinal(alunos);
-
+                    (*alunosRegistrados)++;
                 break;
                 case 2:
                     alunos->removerAluno(alunos);
+                    (*alunosRegistrados)--;
                 break;
                 case 3:
                     alunos->setNotaAluno();
@@ -189,10 +192,12 @@ int main(int argc, char const *argv[])
         }
     } while (*flag == 1);
 
-    //criarArquivo(alunos, alunos.);
+    criarArquivo(alunos);
 
     delete alunos;
     alunos = nullptr;
+    delete alunosRegistrados;
+    alunosRegistrados = nullptr;
     delete flag;
     flag = nullptr;
     delete opcao;
