@@ -41,8 +41,11 @@ The system documentation is available in multiple languages:
 
 ## 🏗️ Arquitetura / Architecture
 
-O sistema segue uma **arquitetura em camadas**:  
-The system follows a **layered architecture**:  
+O sistema segue uma **arquitetura monolítica**, ou seja, todas as funcionalidades estão integradas em um único código, sem separação de camadas físicas.  
+The system follows a **monolithic architecture**, meaning all functionalities are integrated within a single codebase, without physical layer separation.
+
+Apesar de monolítico, o código é modularizado em funções protótipo, facilitando manutenção e futura evolução.  
+Although monolithic, the code is modularized into prototype functions, facilitating maintenance and future evolution.  
 
 1. **Interface Layer / Camada de Interface** – menus interativos no console / interactive menus in the console.  
 2. **Business Layer / Camada de Negócios** – regras de negócio (cadastro, alteração, validações) / business rules (registration, modification, validations).  
