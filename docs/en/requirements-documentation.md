@@ -37,7 +37,7 @@ The system will evolve progressively, following the course content, incorporatin
 
 ---
 
-## 4. Layered Architecture
+## 4. Monolithic Architecture
 
 ### 4.1. Interface Layer
 - The system must provide interactive menus in the terminal for user navigation.  

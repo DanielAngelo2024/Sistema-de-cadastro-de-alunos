@@ -37,7 +37,7 @@ O sistema será evoluído progressivamente, acompanhando o avanço dos conteúdo
 
 ---
 
-## 4. Arquitetura em Camadas
+## 4. Arquitetura Monolítica
 
 ### 4.1. Camada de Interface
 - O sistema deve disponibilizar menus interativos no terminal para navegação do usuário.  
